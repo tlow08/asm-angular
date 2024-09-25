@@ -13,6 +13,10 @@ export type ProductResponse = {
   message: string;
   data: Product[];
 };
+export type ProductDetail = {
+  message: string;
+  data: Product;
+};
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +30,6 @@ export class ProductService {
     return this.http.get<ProductResponse>(this.apiUrl);
   }
   getProductDetail(_id: string| number){
-    return this.http.get<Product>(`${this.apiUrl}/${_id}`)
+    return this.http.get<ProductDetail>(`${this.apiUrl}/${_id}`)
   }
 }
