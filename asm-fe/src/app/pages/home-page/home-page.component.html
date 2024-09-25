@@ -1,0 +1,14 @@
+<main>
+    <div class="row gap-1">
+      <div *ngFor="let product of products; trackBy: trackById" class="card col-3" style="width: 18rem;">
+        <img [src]="product.image" class="card-img-top" alt="Product image">
+        <div class="card-body">
+          <h5 class="card-title">{{ product.title }}</h5>
+          <p class="card-text">{{ product.description }}</p>
+          <!-- <a [routerLink]="['product', product._id]" class="btn btn-primary">Detail</a> -->
+        </div>
+      </div>
+      <p *ngIf="products.length === 0">There are no items.</p>
+    </div>
+  </main>
+  
