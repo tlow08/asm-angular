@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 export type Product = {
   _id: string;
@@ -9,18 +9,23 @@ export type Product = {
   image: string;
   brand:string;
 }
+export type ProductResponse = {
+  message: string;
+  data: Product[];
+};
+
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
+  private apiUrl ='/api/products';
   constructor(private http: HttpClient) {}
   // http = inject(HttpClient);
 
-  getAllProduct(): Observable<Product[]>{
-    return this.http.get<Product[]>('http://localhost:8000/api/products');
+  getAllProduct(): Observable<ProductResponse> {
+    return this.http.get<ProductResponse>(this.apiUrl);
   }
-
   getProductDetail(_id: string| number){
-    return this.http.get<Product>(`http://localhost:8000/api/products/${_id}`)
+    return this.http.get<Product>(`${this.apiUrl}/${_id}`)
   }
 }
