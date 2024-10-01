@@ -1,5 +1,14 @@
-<main>
-  <div class="row gap-1">
+<main class="max-w-screen-2xl m-auto grid grid-cols-8 gap-8">
+  <div class="col-span-2">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">An item</li>
+      <li class="list-group-item">A second item</li>
+      <li class="list-group-item">A third item</li>
+      <li class="list-group-item">A fourth item</li>
+      <li class="list-group-item">And a fifth one</li>
+    </ul>
+  </div>
+  <div class="col-span-6 grid grid-cols-4 gap-8">
     <div *ngFor="let product of products; trackBy: trackById" class="card col-3" style="width: 18rem;">
       <img [src]="product.image" class="card-img-top" alt="Product image">
       <div class="card-body">

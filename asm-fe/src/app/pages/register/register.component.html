@@ -1,6 +1,6 @@
-<p>register works!</p>
 <div class="container">
-  <form [formGroup]="registerForm" (ngSubmit)="handleSubmit()">
+  <h1 class="text-center text-2xl font-semibold">Register</h1>
+  <form class="max-w-screen-md m-auto h-lvh" [formGroup]="registerForm" (ngSubmit)="handleSubmit()">
     <div class="mb-3">
       <label for="exampleInputEmail1" class="form-label">Email address</label>
       <input
@@ -23,6 +23,6 @@
         <span *ngIf="registerForm.get('password')?.errors?.['minlength']" style="color:red;">Password must be at least 6 characters long!</span>
       </div>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-dark w-full">Submit</button>
   </form>
 </div>

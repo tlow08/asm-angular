@@ -1,6 +1,6 @@
-<p>login works!</p>
-<div class="container">
-  <form [formGroup]="loginForm" (ngSubmit)="handleSubmit()">
+<div class="container ">
+  <h1 class="text-center text-2xl font-semibold">Login</h1>
+  <form class="max-w-screen-md m-auto h-lvh" [formGroup]="loginForm" (ngSubmit)="handleSubmit()">
     <div class="mb-3">
       <label for="exampleInputEmail1" class="form-label">Email address</label>
       <input
@@ -27,6 +27,6 @@
         <span *ngIf="loginForm.get('password')?.errors?.['required']" style="color:red;">Password is required!</span>
       </div>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-dark w-full">Submit</button>
   </form>
 </div>

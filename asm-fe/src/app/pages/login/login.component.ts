@@ -16,6 +16,7 @@ export class LoginComponent {
 
   authService = inject(AuthService);
   router = inject(Router);
+
   constructor() {
     // Initialize the form with validators
     this.loginForm = new FormGroup({
@@ -33,7 +34,8 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       console.log(this.loginForm.value);
       this.authService.loginUser(this.loginForm.value).subscribe({
-        next: () => {
+        next: (response) => {
+          this.authService.storeToken(response.accessToken),
           alert('Successfully logged in!');
           this.router.navigateByUrl('/'); // Navigate to home or dashboard
         },
