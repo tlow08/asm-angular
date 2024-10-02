@@ -29,6 +29,11 @@ export class ProductService {
 
   constructor(private http: HttpClient) {}
 
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
+
   getAllProduct(): Observable<ProductResponse> {
     return this.http.get<ProductResponse>(this.apiUrl);
   }
@@ -36,9 +41,15 @@ export class ProductService {
   getProductDetail(_id: string | number) {
     return this.http.get<ProductDetail>(`${this.apiUrl}/${_id}`);
   }
-  deleteProduct(_id: string | number) {
-    return this.http.delete<Product>(`${this.apiUrl}/${_id}`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+  deleteProduct(_id: string | number): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`${this.apiUrl}/${_id}`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  createProduct(data: Product): Observable<any> {
+    return this.http.post(`${this.apiUrl}`, data, {
+      headers: this.getAuthHeaders(),
     });
   }
 }

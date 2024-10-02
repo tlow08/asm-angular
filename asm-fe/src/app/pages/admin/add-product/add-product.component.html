@@ -1,1 +1,32 @@
-<p>add-product works!</p>
+<p>product-add works!</p>
+<div class="container">
+    <form action="" [formGroup]="addForm" (ngSubmit)="handleSubmit()">
+        <div class="mb-3">
+            <label for="" class="form-label">Title</label>
+            <input type="text" class="form-control" formControlName="title">
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label">Description</label>
+            <input type="text" class="form-control" formControlName="description">
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label">Price</label>
+            <input type="text" class="form-control" formControlName="price">
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label">Image</label>
+            <input type="text" class="form-control" formControlName="image">
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label">Category</label>
+            <select class="form-select" formControlName="category">
+                <option value="" disabled selected>Choose a category...</option>
+                <option *ngFor="let category of categories" [value]="category._id">{{ category.title }}</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-primary w-100">Submit</button>
+        </div>
+        
+    </form>
+</div>

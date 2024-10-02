@@ -7,6 +7,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { ListProductComponent } from './pages/admin/list-product/list-product.component';
 import { authGuard } from './guards/auth.guard';
+import { AddProductComponent } from './pages/admin/add-product/add-product.component';
 
 export const routes: Routes = [
     {
@@ -25,6 +26,7 @@ export const routes: Routes = [
         canActivate: [authGuard],
         children:[
             {path: 'product/list', component: ListProductComponent},
+            {path: 'product/add', component: AddProductComponent},
         ]
     }
 ];

@@ -35,7 +35,7 @@ export class AuthService {
   storeToken(accessToken: string): void {
     localStorage.setItem('token', accessToken); 
   }
-
+  
   getUser(): User | null {
     const token = localStorage.getItem('token');
     if (token) {
