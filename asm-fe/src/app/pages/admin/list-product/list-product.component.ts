@@ -23,13 +23,14 @@ export class ListProductComponent {
         if (Array.isArray(response.data)) {
           this.products = response.data;
           console.log('Products loaded successfully!');
-          this.toast.success('Products loaded successfully!', {
-            // className: 'bg-green-500 text-white rounded-lg p-4 shadow-lg',
-            // duration: 2000, 
-            // style: {
-            //   animation: 'fadeInOut 2.5s forwards', 
-            // },
-          });
+          this.toast.success("successfully");
+          // this.toast.success('Products loaded successfully!', {
+          //   className: 'bg-green-500 text-white rounded-lg p-4 shadow-lg',
+          //   duration: 2000, 
+          //   style: {
+          //     animation: 'fadeInOut 2.5s forwards', 
+          //   },
+          // });
         } else {
           console.log('Response is not an array:', response);
           this.products = [];
@@ -37,7 +38,7 @@ export class ListProductComponent {
       },
       error: (e) => {
         console.log('Error:', e.message);
-        this.toast.error('Error: ' + e.message); // Show error toast
+        // this.toast.error('Error: ' + e.message);
       },
     });
   }
@@ -48,12 +49,14 @@ export class ListProductComponent {
         next: () => {
           this.products = this.products.filter(
             (product) => product._id !== _id
-          ); // Update product list without reloading
-          this.toast.success('Product deleted successfully!'); // Show success toast
+          ); 
+          this.toast.success("successfully")
+          // this.toast.success('Product deleted successfully!'); 
+          alert("Delete successfully!");
         },
         error: (e) => {
           console.log(e);
-          this.toast.error('Error: ' + e.message); // Show error toast
+          this.toast.error('Error: ' + e.message); 
         },
       });
     }

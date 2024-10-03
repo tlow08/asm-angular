@@ -4,6 +4,9 @@
         <div class="mb-3">
             <label for="" class="form-label">Title</label>
             <input type="text" class="form-control" formControlName="title">
+            @if(title?.touched && title?.hasError('required')){
+                <p class="text-danger">Title is required</p>
+            }
         </div>
         <div class="mb-3">
             <label for="" class="form-label">Description</label>

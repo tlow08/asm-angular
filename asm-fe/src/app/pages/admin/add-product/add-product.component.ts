@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductService } from '../../../services/product.service';
 import { Router } from '@angular/router';
 import { Category, CategoryService } from '../../../services/category.service';
@@ -15,7 +15,7 @@ templateUrl: './add-product.component.html',
 })
 export class AddProductComponent {
   addForm: FormGroup = new FormGroup({
-    title: new FormControl(),
+    title: new FormControl('', [Validators.required]),
     description: new FormControl(),
     price: new FormControl(),
     image: new FormControl(),
@@ -48,8 +48,16 @@ export class AddProductComponent {
       }
     });
   }
+  get title(){
+    return this.addForm.get('title');
+  }
 
   handleSubmit(){
+    if (this.addForm.invalid) {
+      // this.toast.error('Invalid + Need Validators');
+      alert("Ban khong duoc bo trong")
+      return;
+    }
     this.productService.createProduct(this.addForm.value).subscribe({
       next: ()=>{
         alert("add successfully!");
