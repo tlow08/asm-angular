@@ -2,22 +2,32 @@ import mongoose from "mongoose";
 
 const bidSchema = new mongoose.Schema(
   {
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
     product: {
-      type: Schema.Types.ObjectId,
-      ref: "Product",
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
+        required: true,
     },
-    price: {
-      type: Number,
-      required: true,
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
     },
-    isWinBid: {
-      type: Boolean,
-      default: false,
+    startTime: {
+        type: Date,
+        required: true,
     },
+    endTime: {
+        type: Date,
+        required: true,
+    },
+    price:{
+        type: Number,
+        required: true,
+    },
+    // isWinBid:{
+    //   type: Boolean,
+    //   default: false,
+    // }
   },
   {
     timestamps: true,

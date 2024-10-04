@@ -24,5 +24,8 @@ export const productSchema = Joi.object({
     }),
     linkImage: Joi.string().messages({
         "string.base": "Category must be a string",
-    })
+    }),
+    startAt: Joi.date().optional(),
+    endAt: Joi.date().optional(),
+    currentBidPrice: Joi.number().optional()
 })
