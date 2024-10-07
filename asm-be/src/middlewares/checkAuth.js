@@ -23,6 +23,7 @@ const CheckAuth = async (req, res, next)=>{
         message: "User ko hop le",
       })
     }
+    req.userId = user._id; 
     next();
   }catch(error){
     res.status(400).json({

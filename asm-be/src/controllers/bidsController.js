@@ -1,87 +1,50 @@
 import Bid from "../models/BidsModel.js";
 import Product from "../models/ProductModel.js";
 
-export const createBid = async (req, res, next) => {
+export const getBidsForProduct = async (req, res) => {
   try {
-    const { product, user, startTime, endTime, price } = req.body;
-
-    const productExists = await Product.findById(product);
-    if (!productExists) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Product not found" });
+    const bids = await Bid.find({ productId: req.params.productId }).populate('userId', 'email');
+    if (!bids) {
+      return res.status(404).json({ message: 'Không tìm thấy giá thầu cho sản phẩm này'});
     }
-
-    const newBid = await Bid.create({
-      product,
-      user,
-      startTime,
-      endTime,
-      price,
-    });
-
-    return res.status(201).json({
-      success: true,
-      data: newBid,
-      message: "Bid created successfully!",
-    });
+    res.status(200).json(bids);
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
-export const getActiveBidsForProduct = async (req, res, next) => {
+
+export const placeBid = async (req, res) => {
+  const { productId, bidAmount } = req.body;
+
   try {
-    const { productId } = req.params;
-
-    const currentTime = new Date();
-    const activeBids = await Bid.find({
-      product: productId,
-      startTime: { $lte: currentTime },
-      endTime: { $gte: currentTime },
-    }).populate("user", "username");
-
-    return res.status(200).json({
-      success: true,
-      data: activeBids,
-      message: "Active bids fetched successfully",
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const updateBid = async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const { price, startTime, endTime } = req.body;
-
-    const existingBid = await Bid.findById(id);
-    if (!existingBid) {
-      return res.status(404).json({ success: false, message: "Bid not found" });
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
     }
 
     const currentTime = new Date();
-    if (existingBid.endTime < currentTime) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Cannot update an expired bid" });
+    if (!product.startAt || !product.endAt || currentTime < product.startAt || currentTime > product.endAt) {
+      return res.status(400).json({ message: 'Không được phép đấu thầu ngoài khung thời gian đấu giá.' });
     }
 
-    existingBid.price = price !== undefined ? price : existingBid.price;
-    existingBid.startTime =
-      startTime !== undefined ? new Date(startTime) : existingBid.startTime;
-    existingBid.endTime =
-      endTime !== undefined ? new Date(endTime) : existingBid.endTime; 
+    if (bidAmount <= product.currentBidPrice) {
+      return res.status(400).json({ message: 'Số tiền đấu thầu phải lớn hơn giá thầu hiện tại'});
+    }
 
-    const updatedBid = await existingBid.save(); 
-
-    return res.status(200).json({
-      success: true,
-      data: updatedBid,
-      message: "Bid updated successfully!",
+    const newBid = new Bid({
+      userId: req.userId,
+      productId,
+      bidAmount
     });
+
+    await newBid.save();
+    product.currentBidPrice = bidAmount;
+    await product.save();
+
+    return res.status(200).json({ message: 'Đã đặt giá thầu thành công', bid: newBid });
   } catch (error) {
-    next(error);
+    console.error(error.message); 
+    return res.status(500).json({ message: error.message });
   }
 };
